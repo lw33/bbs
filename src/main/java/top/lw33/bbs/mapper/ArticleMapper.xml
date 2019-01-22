@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="top.lw33.bbs.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="top.lw33.bbs.pojo.Article" >
+    <id column="aid" property="aid" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="crateTime" property="cratetime" jdbcType="TIMESTAMP" />
+    <result column="lastModify" property="lastmodify" jdbcType="TIMESTAMP" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="lable" property="lable" jdbcType="VARCHAR" />
+    <result column="isTop" property="istop" jdbcType="INTEGER" />
+    <result column="isExcellent" property="isexcellent" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="top.lw33.bbs.pojo.Article" extends="BaseResultMap" >
+    <result column="acontent" property="acontent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    aid, title, crateTime, lastModify, uid, lable, isTop, isExcellent, status
+  </sql>
+  <sql id="Blob_Column_List" >
+    acontent
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="top.lw33.bbs.pojo.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="top.lw33.bbs.pojo.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where aid = #{aid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where aid = #{aid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="top.lw33.bbs.pojo.ArticleExample" >
+    delete from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="top.lw33.bbs.pojo.Article" >
+    insert into article (aid, title, crateTime, 
+      lastModify, uid, lable, 
+      isTop, isExcellent, status, 
+      acontent)
+    values (#{aid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{cratetime,jdbcType=TIMESTAMP}, 
+      #{lastmodify,jdbcType=TIMESTAMP}, #{uid,jdbcType=INTEGER}, #{lable,jdbcType=VARCHAR}, 
+      #{istop,jdbcType=INTEGER}, #{isexcellent,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{acontent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="top.lw33.bbs.pojo.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="aid != null" >
+        aid,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="cratetime != null" >
+        crateTime,
+      </if>
+      <if test="lastmodify != null" >
+        lastModify,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="lable != null" >
+        lable,
+      </if>
+      <if test="istop != null" >
+        isTop,
+      </if>
+      <if test="isexcellent != null" >
+        isExcellent,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="acontent != null" >
+        acontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="aid != null" >
+        #{aid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cratetime != null" >
+        #{cratetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastmodify != null" >
+        #{lastmodify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="lable != null" >
+        #{lable,jdbcType=VARCHAR},
+      </if>
+      <if test="istop != null" >
+        #{istop,jdbcType=INTEGER},
+      </if>
+      <if test="isexcellent != null" >
+        #{isexcellent,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="acontent != null" >
+        #{acontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="top.lw33.bbs.pojo.ArticleExample" resultType="java.lang.Integer" >
+    select count(*) from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update article
+    <set >
+      <if test="record.aid != null" >
+        aid = #{record.aid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cratetime != null" >
+        crateTime = #{record.cratetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastmodify != null" >
+        lastModify = #{record.lastmodify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.uid != null" >
+        uid = #{record.uid,jdbcType=INTEGER},
+      </if>
+      <if test="record.lable != null" >
+        lable = #{record.lable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.istop != null" >
+        isTop = #{record.istop,jdbcType=INTEGER},
+      </if>
+      <if test="record.isexcellent != null" >
+        isExcellent = #{record.isexcellent,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.acontent != null" >
+        acontent = #{record.acontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update article
+    set aid = #{record.aid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      crateTime = #{record.cratetime,jdbcType=TIMESTAMP},
+      lastModify = #{record.lastmodify,jdbcType=TIMESTAMP},
+      uid = #{record.uid,jdbcType=INTEGER},
+      lable = #{record.lable,jdbcType=VARCHAR},
+      isTop = #{record.istop,jdbcType=INTEGER},
+      isExcellent = #{record.isexcellent,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      acontent = #{record.acontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update article
+    set aid = #{record.aid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      crateTime = #{record.cratetime,jdbcType=TIMESTAMP},
+      lastModify = #{record.lastmodify,jdbcType=TIMESTAMP},
+      uid = #{record.uid,jdbcType=INTEGER},
+      lable = #{record.lable,jdbcType=VARCHAR},
+      isTop = #{record.istop,jdbcType=INTEGER},
+      isExcellent = #{record.isexcellent,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="top.lw33.bbs.pojo.Article" >
+    update article
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="cratetime != null" >
+        crateTime = #{cratetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastmodify != null" >
+        lastModify = #{lastmodify,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="lable != null" >
+        lable = #{lable,jdbcType=VARCHAR},
+      </if>
+      <if test="istop != null" >
+        isTop = #{istop,jdbcType=INTEGER},
+      </if>
+      <if test="isexcellent != null" >
+        isExcellent = #{isexcellent,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="acontent != null" >
+        acontent = #{acontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="top.lw33.bbs.pojo.Article" >
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      crateTime = #{cratetime,jdbcType=TIMESTAMP},
+      lastModify = #{lastmodify,jdbcType=TIMESTAMP},
+      uid = #{uid,jdbcType=INTEGER},
+      lable = #{lable,jdbcType=VARCHAR},
+      isTop = #{istop,jdbcType=INTEGER},
+      isExcellent = #{isexcellent,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      acontent = #{acontent,jdbcType=LONGVARCHAR}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="top.lw33.bbs.pojo.Article" >
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      crateTime = #{cratetime,jdbcType=TIMESTAMP},
+      lastModify = #{lastmodify,jdbcType=TIMESTAMP},
+      uid = #{uid,jdbcType=INTEGER},
+      lable = #{lable,jdbcType=VARCHAR},
+      isTop = #{istop,jdbcType=INTEGER},
+      isExcellent = #{isexcellent,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+</mapper>
